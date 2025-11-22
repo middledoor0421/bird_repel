@@ -3,18 +3,28 @@
 runtime:
   device: "cuda:0"        # device id or "cpu"
   precision: "fp16"       # "fp32" or "fp16"
-  num_workers: 2          # dataloader/decoder threads
+  num_workers: 4          # dataloader/decoder threads
   seed: 1337
 
 ingest:
   sources:
     - id: "cam-0"
-      uri: "rtsp://..."   # or file path for replay
+      uri: "temp_data/test_1.mp4"   # 또는 rtsp://...
       width: 1920
       height: 1080
       fps: 15
     - id: "cam-1"
-      uri: "rtsp://..."
+      uri: "temp_data/test_1.mp4"
+      width: 1920
+      height: 1080
+      fps: 15
+    - id: "cam-2"
+      uri: "temp_data/test_1.mp4"
+      width: 1920
+      height: 1080
+      fps: 15
+    - id: "cam-3"
+      uri: "temp_data/test_1.mp4"
       width: 1920
       height: 1080
       fps: 15
@@ -80,5 +90,9 @@ event:
 
 display:
   enable: true
-  scale: 0.5          # 50% 크기
-  window_name: "ccs_mvp"
+  scale: 0.5
+  multi: "windows"     # "windows" or "grid"
+  window_name: "ccs_multi"
+
+metrics:
+  interval_sec: 5.0
