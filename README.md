@@ -7,3 +7,15 @@ Central camera (1st-stage) detects birds and publishes BirdTarget (bearing/box).
 KPI(중앙 AP_S/Recall/AP75, 지연 ≤ 100ms/스트림)
 
 모듈 로드맵(ROI 게이팅 → 1차 탐지 → 추적 → 조건부 SAHI → BirdTarget 이벤트)
+
+track_id, t, cam_id
+
+bearing(픽셀 중심→각 변환값)
+
+box=(x,y,w,h)
+
+conf(IoU‑aware 점수)
+
+size_px
+
+need_recheck(소형/저신뢰시 True)
