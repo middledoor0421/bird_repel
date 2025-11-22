@@ -31,13 +31,21 @@ def main() -> None:
     cfg = load_yaml(args.config)
     logger.info("Loaded config: {}", args.config)
 
-    # --- display config ---
-    disp_cfg = cfg.get("display", {})
+    # --- display config (READ FROM ROOT 'display') ---
+    disp_cfg = cfg.get("display", {})  # <= ensure we read from root
     win_name = disp_cfg.get("window_name", "ccs_mvp")
-    scale = float(disp_cfg.get("scale", 0.5))
+    scale = float(disp_cfg.get("scale", 1.0))
     show = bool(disp_cfg.get("enable", True))
+    first_resize_done = False
+
     if show:
+        # Create a resizable window; we will force its size on the first frame
         cv2.namedWindow(win_name, cv2.WINDOW_NORMAL)
+        # Keep aspect ratio when user drags the window (best-effort)
+        try:
+            cv2.setWindowProperty(win_name, cv2.WND_PROP_ASPECT_RATIO, cv2.WINDOW_KEEPRATIO)
+        except Exception:
+            pass
 
     # --- ingest ---
     ingest0 = None
@@ -183,11 +191,20 @@ def main() -> None:
             ev_count += 1
             logger.info("Emit BirdTarget: {}", event.json())
 
-        # display (scaled)
+        # --- display (scaled) ---
         if show:
-            disp = frame
+            # 1) scale the image content
             if scale != 1.0:
                 disp = cv2.resize(frame, None, fx=scale, fy=scale, interpolation=cv2.INTER_AREA)
+            else:
+                disp = frame
+
+            # 2) FORCE window size once (so scale visibly changes window size)
+            if not first_resize_done:
+                dh, dw = disp.shape[:2]  # note: shape is (h, w, c)
+                cv2.resizeWindow(win_name, int(dw), int(dh))
+                first_resize_done = True
+
             cv2.imshow(win_name, disp)
             if cv2.waitKey(1) & 0xFF == ord('q'):
                 break
