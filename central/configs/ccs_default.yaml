@@ -37,18 +37,18 @@ roi_gating:
     conf_low: 0.2             # if conf < conf_low → promote SAHI
 
 detector:
-  backend: "yolov10s"     # "ppyoloe_s", "yolov10n/s", ...
-  weights: "weights/ccs_yolov10s.pt"
+  backend: "ultralytics"     # 임시 백엔드 식별자
+  weights: "yolov8n.pt"      # 또는 yolov10n.pt (사용 가능할 때)
   input_size: 640
   conf_th: 0.15           # low threshold, recall-oriented
   iou_th: 0.6
   nms:
-    type: "soft-nms"      # "nms" or "soft-nms"
-    sigma: 0.5            # only used for soft-nms
+    type: "soft-nms"              # MVP는 일반 NMS로 시작(Soft‑NMS는 다음 단계)
+    sigma: 0.5
   scoring:
-    iou_aware: true       # use IoU-aware score (VFL/GFLv2 aligned)
+    iou_aware: false         # VFL 정렬 전까지 false, 나중에 true
   classes:
-    only_bird: true       # central detects only Bird
+    only_bird: true
 
 tracker:
   method: "bytetrack"     # "bytetrack" or "ocsort"
@@ -61,6 +61,7 @@ sahi:
   enable: true            # will be triggered conditionally
   tile_size: 896
   overlap: 0.25
+  max_tiles: 6
   postprocess:
     merge_iou: 0.55
     merge_method: "nms"
@@ -76,3 +77,8 @@ event:
   emit_conf_th: 0.15
   fields:
     include_meta: true
+
+display:
+  enable: true
+  scale: 0.5          # 50% 크기
+  window_name: "ccs_mvp"
