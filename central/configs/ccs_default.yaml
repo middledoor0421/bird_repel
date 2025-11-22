@@ -1,0 +1,78 @@
+# Central Camera System default config (skeleton)
+
+runtime:
+  device: "cuda:0"        # device id or "cpu"
+  precision: "fp16"       # "fp32" or "fp16"
+  num_workers: 2          # dataloader/decoder threads
+  seed: 1337
+
+ingest:
+  sources:
+    - id: "cam-0"
+      uri: "rtsp://..."   # or file path for replay
+      width: 1920
+      height: 1080
+      fps: 15
+    - id: "cam-1"
+      uri: "rtsp://..."
+      width: 1920
+      height: 1080
+      fps: 15
+  sync:
+    enable: true          # sync across cams (timestamp alignment)
+    tolerance_ms: 80
+
+roi_gating:
+  motion:
+    method: "frame_diff"  # "frame_diff" or "bg_subtractor"
+    diff_th: 18           # pixel intensity threshold
+    min_area: 64          # min moving area in px^2
+  tiles:
+    enable: true
+    tile_size: 640        # candidate tile size for promotion
+    overlap: 0.2
+  policy:
+    promote_on_small: true
+    small_area_ratio: 0.002   # if box area < ratio → promote SAHI
+    conf_low: 0.2             # if conf < conf_low → promote SAHI
+
+detector:
+  backend: "yolov10s"     # "ppyoloe_s", "yolov10n/s", ...
+  weights: "weights/ccs_yolov10s.pt"
+  input_size: 640
+  conf_th: 0.15           # low threshold, recall-oriented
+  iou_th: 0.6
+  nms:
+    type: "soft-nms"      # "nms" or "soft-nms"
+    sigma: 0.5            # only used for soft-nms
+  scoring:
+    iou_aware: true       # use IoU-aware score (VFL/GFLv2 aligned)
+  classes:
+    only_bird: true       # central detects only Bird
+
+tracker:
+  method: "bytetrack"     # "bytetrack" or "ocsort"
+  track_buffer: 30
+  match_iou_th: 0.3
+  conf_th_high: 0.5       # high conf for first stage matching
+  conf_th_low: 0.1        # low conf for recovery (ByteTrack)
+
+sahi:
+  enable: true            # will be triggered conditionally
+  tile_size: 896
+  overlap: 0.25
+  postprocess:
+    merge_iou: 0.55
+    merge_method: "nms"
+
+postprocess:
+  min_box_size: 6         # px; discard too-small boxes
+  angle_center: [960, 540] # image center (for bearing conversion)
+  calibration:
+    fov_deg: 90.0         # camera horizontal FOV for angle mapping
+
+event:
+  topic: "bird_target"
+  emit_conf_th: 0.15
+  fields:
+    include_meta: true
