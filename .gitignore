@@ -1,0 +1,11 @@
+.idea/
+venv/
+__pycache__/
+.pytest_cache/
+logs/
+outputs/
+data/
+weights/
+*.onnx
+*.engine
+*.pth

@@ -1,0 +1,1 @@
+track_id, t, cam_id, bearing(픽셀→각), box(x,y,w,h), conf(IoU‑aware), size_px, need_recheck
