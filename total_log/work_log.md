@@ -9,6 +9,7 @@
 - 기준은 `코드 / 설정 / 메모 / 로그 문서` 중심으로 버전 관리하고, `artifacts/`는 재생성 가능한 실행 결과로 분리하는 것으로 잡음
 - 로컬 git 저장소를 초기화하고 첫 커밋 `1a4773c` (`Initial thesis3 scaffold and tooling`)까지 완료
 - 현재는 working tree가 clean 상태이고, GitHub remote만 연결하면 push 가능한 상태
+- GitHub remote `git@github.com:middledoor0421/bird_repel.git` 연결 후 `main` 브랜치를 force push해서 현재 `thesis3` 내용을 원격 저장소 기준 상태로 반영
 
 ### 실데이터 수령 전 준비 단계 정리 및 대기 전환
 
