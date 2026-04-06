@@ -1,5 +1,13 @@
 # work_log
 
+## 2026-04-06
+
+### README 영어 우선 정리 및 GitHub About 문구 준비
+
+- GitHub 저장소 메인 화면에서 영어가 먼저 보이도록 `README.md`를 영어 우선, 한국어 보조 형태로 재작성
+- 내부 코드 경로 `src/thesis3`는 유지하되, 사용자-facing 문서는 `project` 기준으로 읽히게 정리
+- GitHub `About`은 git push로 바뀌지 않기 때문에, 저장소 페이지에 직접 넣을 수 있는 짧은 영어 소개 문구를 별도로 준비
+
 ## 2026-04-05
 
 ### GitHub 업로드 준비
