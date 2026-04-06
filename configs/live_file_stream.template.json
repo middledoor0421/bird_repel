@@ -1,0 +1,77 @@
+{
+  "scenario": "scenario_a",
+  "replay": {
+    "manifest_path": "",
+    "timestamp_tolerance_ms": 20,
+    "output_dir": "artifacts/live_file_stream"
+  },
+  "cameras": [
+    {
+      "camera_id": "cam_wide",
+      "role": "primary"
+    },
+    {
+      "camera_id": "cam_tele",
+      "role": "verification"
+    }
+  ],
+  "detector": {
+    "name": "mean_intensity_detector",
+    "params": {
+      "min_mean_intensity": 0.1,
+      "bbox_width_ratio": 0.25,
+      "bbox_height_ratio": 0.25,
+      "class_name": "bird"
+    }
+  },
+  "verifier": {
+    "name": "crop_variance_verifier",
+    "params": {
+      "min_variance_score": 0.05
+    }
+  },
+  "tracker": {
+    "name": "simple_tracker",
+    "params": {
+      "confirm_after": 1,
+      "max_missing_seconds": 1.0
+    }
+  },
+  "policy": {
+    "verification_threshold": 0.05,
+    "review_threshold": 0.05,
+    "quality_threshold": 0.0,
+    "max_candidates_per_tick": 3
+  },
+  "simulator": {
+    "actuator_enabled": true,
+    "actuator_failure_rate": 0.0
+  },
+  "extra": {
+    "verification_deadline_ms": 250,
+    "live": {
+      "spool_dir": "artifacts/live_spool",
+      "frame_format": "jpg",
+      "sources": [
+        {
+          "camera_id": "cam_wide",
+          "uri": "/path/to/cam_wide.mp4",
+          "sample_fps": 2.0,
+          "timestamp_offset_s": 0.0,
+          "realtime": true,
+          "scale_width": 640,
+          "timestamp_mode": "media_time"
+        },
+        {
+          "camera_id": "cam_tele",
+          "uri": "/path/to/cam_tele.mp4",
+          "sample_fps": 2.0,
+          "timestamp_offset_s": 0.01,
+          "realtime": true,
+          "scale_width": 640,
+          "timestamp_mode": "media_time"
+        }
+      ]
+    }
+  }
+}

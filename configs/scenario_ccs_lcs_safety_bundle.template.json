@@ -1,0 +1,84 @@
+{
+  "scenario": "scenario_a",
+  "replay": {
+    "manifest_path": "examples/replay_manifest.jsonl",
+    "timestamp_tolerance_ms": 20,
+    "output_dir": "artifacts/scenario_ccs_lcs_safety_bundle_real"
+  },
+  "cameras": [
+    {
+      "camera_id": "cam_wide",
+      "role": "primary"
+    },
+    {
+      "camera_id": "cam_tele",
+      "role": "verification"
+    }
+  ],
+  "detector": {
+    "name": "manifest_detector",
+    "params": {
+      "min_confidence": 0.4
+    }
+  },
+  "verifier": {
+    "name": "heuristic_verifier",
+    "params": {
+      "score_threshold": 0.7,
+      "min_quality": 0.3
+    }
+  },
+  "tracker": {
+    "name": "simple_tracker",
+    "params": {
+      "confirm_after": 2,
+      "max_missing_seconds": 0.5
+    }
+  },
+  "safety_policy": {
+    "name": "ccs_lcs_safety_policy",
+    "params": {
+      "min_verifier_score": 0.74,
+      "non_target_score_threshold": 0.4,
+      "temporal_k_confirm": 2,
+      "safe_idle_on_uncertainty": true,
+      "uncertainty_threshold": 0.4,
+      "require_safe_zone": true,
+      "only_override_simulated_action": true
+    }
+  },
+  "environment": {
+    "name": "ccs_lcs_real_data",
+    "target_labels": [
+      "target"
+    ],
+    "non_target_labels": [
+      "distractor"
+    ],
+    "safe_zone": {
+      "bbox": [
+        80,
+        100,
+        160,
+        180
+      ]
+    },
+    "latency_budget_ms": 120.0,
+    "metadata": {
+      "method_role": "safety_policy_bundle"
+    }
+  },
+  "policy": {
+    "verification_threshold": 0.7,
+    "review_threshold": 0.5,
+    "quality_threshold": 0.3,
+    "max_candidates_per_tick": 3
+  },
+  "simulator": {
+    "actuator_enabled": true,
+    "actuator_failure_rate": 0.0
+  },
+  "extra": {
+    "verification_deadline_ms": 250
+  }
+}

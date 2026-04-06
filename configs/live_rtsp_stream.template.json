@@ -1,0 +1,79 @@
+{
+  "scenario": "scenario_a",
+  "replay": {
+    "manifest_path": "",
+    "timestamp_tolerance_ms": 40,
+    "output_dir": "artifacts/live_rtsp_stream"
+  },
+  "cameras": [
+    {
+      "camera_id": "cam_wide",
+      "role": "primary"
+    },
+    {
+      "camera_id": "cam_tele",
+      "role": "verification"
+    }
+  ],
+  "detector": {
+    "name": "mean_intensity_detector",
+    "params": {
+      "min_mean_intensity": 0.1,
+      "bbox_width_ratio": 0.25,
+      "bbox_height_ratio": 0.25,
+      "class_name": "bird"
+    }
+  },
+  "verifier": {
+    "name": "crop_variance_verifier",
+    "params": {
+      "min_variance_score": 0.05
+    }
+  },
+  "tracker": {
+    "name": "simple_tracker",
+    "params": {
+      "confirm_after": 1,
+      "max_missing_seconds": 1.0
+    }
+  },
+  "policy": {
+    "verification_threshold": 0.05,
+    "review_threshold": 0.05,
+    "quality_threshold": 0.0,
+    "max_candidates_per_tick": 3
+  },
+  "simulator": {
+    "actuator_enabled": true,
+    "actuator_failure_rate": 0.0
+  },
+  "extra": {
+    "verification_deadline_ms": 250,
+    "live": {
+      "spool_dir": "artifacts/live_spool_rtsp",
+      "frame_format": "jpg",
+      "sources": [
+        {
+          "camera_id": "cam_wide",
+          "uri": "rtsp://user:password@host:554/stream1",
+          "sample_fps": 5.0,
+          "timestamp_offset_s": 0.0,
+          "realtime": false,
+          "scale_width": 1280,
+          "rtsp_transport": "tcp",
+          "timestamp_mode": "wallclock"
+        },
+        {
+          "camera_id": "cam_tele",
+          "uri": "rtsp://user:password@host:554/stream2",
+          "sample_fps": 5.0,
+          "timestamp_offset_s": 0.01,
+          "realtime": false,
+          "scale_width": 1280,
+          "rtsp_transport": "tcp",
+          "timestamp_mode": "wallclock"
+        }
+      ]
+    }
+  }
+}

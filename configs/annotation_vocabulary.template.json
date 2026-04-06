@@ -1,0 +1,58 @@
+{
+  "event_quality_tags": [
+    "clear",
+    "blur",
+    "motion_blur",
+    "glare",
+    "reflection",
+    "night",
+    "low_light",
+    "background_motion",
+    "distant_object",
+    "partial_visibility",
+    "occlusion",
+    "shadow",
+    "clutter",
+    "small_object",
+    "hard_negative",
+    "rain"
+  ],
+  "frame_object_tags": [
+    "small_object",
+    "partial_visibility",
+    "occluded",
+    "boundary_touching",
+    "blur",
+    "glare",
+    "truncated"
+  ],
+  "visibility_values": [
+    "clear",
+    "partial",
+    "occluded",
+    "tiny",
+    "blurred"
+  ],
+  "class_names": [
+    "bird",
+    "target",
+    "distractor",
+    "unknown"
+  ],
+  "ambiguity_reasons": [
+    "too_small",
+    "too_blurry",
+    "severe_glare",
+    "occluded",
+    "distant_motion",
+    "uncertain_species",
+    "conflicting_cues",
+    "insufficient_context"
+  ],
+  "adjudication_statuses": [
+    "pending",
+    "needs_second_review",
+    "resolved",
+    "waived"
+  ]
+}

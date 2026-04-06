@@ -1,0 +1,62 @@
+{
+  "scenario": "scenario_a",
+  "replay": {
+    "manifest_path": "/path/to/replay_bundle/replay_manifest.jsonl",
+    "timestamp_tolerance_ms": 5,
+    "output_dir": "artifacts/scenario_dynamic_plugin"
+  },
+  "cameras": [
+    {
+      "camera_id": "cam_wide",
+      "role": "primary"
+    },
+    {
+      "camera_id": "cam_wide",
+      "role": "verification"
+    }
+  ],
+  "detector": {
+    "name": "./examples/custom_plugins.py:ExternalMetadataDetector",
+    "params": {
+      "min_confidence": 0.5
+    }
+  },
+  "verifier": {
+    "name": "gt_metadata_verifier",
+    "params": {
+      "min_iou": 0.1
+    }
+  },
+  "tracker": {
+    "name": "simple_tracker",
+    "params": {
+      "confirm_after": 1,
+      "max_missing_seconds": 1.0
+    }
+  },
+  "trigger_policy": {
+    "name": "./examples/custom_plugins.py:ExternalReviewBandTriggerPolicy",
+    "params": {
+      "min_confidence": 0.2,
+      "max_confidence": 0.95
+    }
+  },
+  "candidate_selector": {
+    "name": "./examples/custom_plugins.py:ExternalTopOneSelector",
+    "params": {}
+  },
+  "policy": {
+    "verification_threshold": 0.1,
+    "review_threshold": 0.2,
+    "quality_threshold": 0.0,
+    "max_candidates_per_tick": 3
+  },
+  "simulator": {
+    "actuator_enabled": true,
+    "actuator_failure_rate": 0.0
+  },
+  "extra": {
+    "verification_deadline_ms": 250,
+    "note": "Example config that loads detector and policy modules from an external Python file."
+  }
+}

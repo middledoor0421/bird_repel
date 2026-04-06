@@ -1,0 +1,71 @@
+{
+  "scenario": "scenario_a",
+  "replay": {
+    "manifest_path": "examples/replay_manifest.jsonl",
+    "timestamp_tolerance_ms": 20,
+    "output_dir": "artifacts/scenario_generic_external_wrapper"
+  },
+  "cameras": [
+    {
+      "camera_id": "cam_wide",
+      "role": "primary"
+    },
+    {
+      "camera_id": "cam_tele",
+      "role": "verification"
+    }
+  ],
+  "detector": {
+    "name": "generic_external_detector",
+    "params": {
+      "model_target": "./examples/external_repo_models.py:DemoForeignDetectorModel",
+      "model_init_params": {
+        "min_confidence": 0.45
+      },
+      "predict_method": "predict",
+      "input_mode": "frame_packet",
+      "result_path": "predictions",
+      "class_name_key": "label",
+      "min_confidence": 0.45,
+      "pass_roi": true
+    }
+  },
+  "verifier": {
+    "name": "generic_external_verifier",
+    "params": {
+      "model_target": "./examples/external_repo_models.py:DemoForeignVerifierModel",
+      "model_init_params": {
+        "candidate_weight": 0.6
+      },
+      "predict_method": "score",
+      "input_mode": "frame_packet",
+      "result_path": "result",
+      "score_key": "score",
+      "quality_key": "quality",
+      "score_threshold": 0.7,
+      "pass_request": true,
+      "pass_context": true
+    }
+  },
+  "tracker": {
+    "name": "simple_tracker",
+    "params": {
+      "confirm_after": 2,
+      "max_missing_seconds": 0.5
+    }
+  },
+  "policy": {
+    "verification_threshold": 0.7,
+    "review_threshold": 0.5,
+    "quality_threshold": 0.3,
+    "max_candidates_per_tick": 3
+  },
+  "simulator": {
+    "actuator_enabled": true,
+    "actuator_failure_rate": 0.0
+  },
+  "extra": {
+    "verification_deadline_ms": 250,
+    "note": "Example that wraps a foreign detector/verifier repo through the generic adapter."
+  }
+}

@@ -1,0 +1,51 @@
+{
+  "scenario": "scenario_b",
+  "replay": {
+    "manifest_path": "examples/replay_manifest.jsonl",
+    "timestamp_tolerance_ms": 20,
+    "output_dir": "artifacts/scenario_b"
+  },
+  "cameras": [
+    {
+      "camera_id": "cam_wide",
+      "role": "wide"
+    },
+    {
+      "camera_id": "cam_tele",
+      "role": "zoom"
+    }
+  ],
+  "detector": {
+    "name": "manifest_detector",
+    "params": {
+      "min_confidence": 0.4
+    }
+  },
+  "verifier": {
+    "name": "heuristic_verifier",
+    "params": {
+      "score_threshold": 0.72,
+      "min_quality": 0.3
+    }
+  },
+  "tracker": {
+    "name": "simple_tracker",
+    "params": {
+      "confirm_after": 1,
+      "max_missing_seconds": 0.5
+    }
+  },
+  "policy": {
+    "verification_threshold": 0.72,
+    "review_threshold": 0.5,
+    "quality_threshold": 0.3,
+    "max_candidates_per_tick": 2
+  },
+  "simulator": {
+    "actuator_enabled": true,
+    "actuator_failure_rate": 0.0
+  },
+  "extra": {
+    "verification_deadline_ms": 250
+  }
+}

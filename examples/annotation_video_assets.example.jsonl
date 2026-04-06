@@ -1,0 +1,1 @@
+{"asset_id":"cam_wide-demo001","source_path":"/data/raw/cam_wide/demo001.mp4","camera_id":"cam_wide","width":1920,"height":1080,"fps":30.0,"duration_s":60.0,"frame_count":1800,"codec_name":"h264","file_size_bytes":104857600,"creation_time":"2026-04-05T09:00:00+09:00","metadata":{"site_id":"example_site","environment_tag":"annotation_example"}}
