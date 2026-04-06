@@ -1,4 +1,4 @@
-# thesis3
+# project
 
 실데이터 기반 bird detection / verification / safety system을 실제 운영 환경에 맞게 검증하고 조정하기 위한 실험 플랫폼이다.
 
